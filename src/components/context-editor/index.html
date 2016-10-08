@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h1>Manage environments</h1>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-6">
+            <select ng-model="_.env" ng-options="item as key for (key,item) in context.environments"></select>
+        </div>
+        <div class="col-xs-6">
+            <form name="$form_newEnv" ng-submit="context.environments[form.name] = {};_.env =context.environments[form.name]; form = {}" ng-init="form = {}">
+                <input ng-required="true" ng-model="form.name" placeholder="new environment name"/>
+                <button class="btn btn-success btn-xs" ng-disabled="$form_newEnv.$invalid">add</button>
+            </form>
+        </div>
+    </div>
+    <div ng-if="_.env">
+
+        <div ng-repeat="(key,val) in _.env">
+            <div dynamic-field="_.env", name="{{key}}"></div>
+        </div>
+
+        <form name="$form" ng-init="form = {}" ng-submit="promise = _.env[form.name] = form.value; form = {}">
+            <input ng-model="form.name" placeholder="X-Name" />
+            <input ng-model="form.value" placeholder="123" />
+            <button type="submit" class="btn btn-success btn-xs" >add</button>
+        </form>
+    </div>
+</div>

@@ -1,10 +1,23 @@
+@import "./forms.less";
+
 [ng-click] {
     cursor: pointer;
 }
 
-.navbar {
+body .navbar {
     border-radius: 0px !important;
     margin-bottom: -1px !important;
+    background-color: #212129;
+    border-width: 0px;
+    &.navbar-default .navbar-brand {
+        color: white;
+    }
+}
+.subnavbar {
+    background: #313139;
+    color: white;
+    height: 50px;
+    line-height: 50px;
 }
 
 .sidebar {

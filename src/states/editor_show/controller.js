@@ -9,7 +9,7 @@ export default function EditorShowController($scope, QueryStorage, QueryRunner, 
     $scope.trigger = () => {
         delete $scope.response
 
-        return QueryRunner.run($scope.query, {value: Date.now()}) // second value is a random context for now
+        return QueryRunner.run($scope.query) // second value is a random context for now
             .then(data => {
                 $scope.tests = TestRunner.run($scope.query.tests, data)
 

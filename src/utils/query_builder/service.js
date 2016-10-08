@@ -1,8 +1,9 @@
 import {parse} from "./helper"
 
-export const QueryBuilder = function QueryBuilderFactory(QueryStorage) {
+export const QueryBuilder = function QueryBuilderFactory() {
     return {
-        createQueryFromCurl
+        createQueryFromCurl,
+        restaureQuery
     }
 
     /** Create a new query from a curl command
@@ -13,12 +14,11 @@ export const QueryBuilder = function QueryBuilderFactory(QueryStorage) {
         const curl = parse(curl_string)
 
         let query = {
-            /* name: curl.method+" "+curl.url.match(/^https?:\/\/([^\/]*)/)[1], */
             name: curl.url,
             headers: {
                 // example of function as value
                 timestamp: (context) => {
-                    return context.value
+                    return context.hostname
                 },
                 ...curl.headers
             },
@@ -29,7 +29,21 @@ export const QueryBuilder = function QueryBuilderFactory(QueryStorage) {
 
                     expect(data.data.id).to.equal(1)`.replace(/[ \t]*/g, "")
         }
-        // Storage will add UUID to the query obj
-        return QueryStorage.add(query);
+
+        return query
+    }
+
+    function restaureQuery(query) {
+
+        return {
+            ...query,
+            headers: {
+                ...query.headers,
+                timestamp: (context) => {
+                    return context.environment.hostname
+                },
+            }
+        }
+
     }
 }

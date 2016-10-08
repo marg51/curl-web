@@ -3,12 +3,14 @@ require("angular-ui-router")
 require("jsonformatter")
 require("jsonformatter/dist/json-formatter.min.css")
 require("angular-uuid")
-require('lodash')
+require("lodash")
+require("angular-ui-bootstrap")
 
 const app = angular.module("app", [
     "ui.router",
     "jsonFormatter",
-    "angular-uuid"
+    "angular-uuid",
+    "ui.bootstrap"
 ])
 
 // initialize our modules

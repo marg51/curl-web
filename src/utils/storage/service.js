@@ -1,4 +1,4 @@
-export const QueryStorage = function QueryStorageFactory (uuid) {
+export const QueryStorage = function QueryStorageFactory (uuid, QueryBuilder) {
   const storageId = "curl-web-queries"
   let queries = [];
 
@@ -16,7 +16,7 @@ export const QueryStorage = function QueryStorageFactory (uuid) {
 
   function fetch() {
     try {
-      store.queries = angular.fromJson(localStorage.getItem(storageId));
+      store.queries = angular.fromJson(localStorage.getItem(storageId)).map(QueryBuilder.restaureQuery);
     } catch (e) {
       console.error("Error while retrieving queries from localStorage", e);
       store.queries = [];
@@ -33,7 +33,7 @@ export const QueryStorage = function QueryStorageFactory (uuid) {
 
   function remove(queryUUID) {
     store.queries.splice(_.findIndex(store.queries, { id: queryUUID }), 0);
-    _save(); 
+    _save();
   }
 
   function get(queryUUID) {

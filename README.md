@@ -24,32 +24,10 @@ Another [postman](https://www.getpostman.com/) or [paw](https://paw.cloud)
 
 ### Level 2
 
-- [ ] Add a global context
- - [ ] Choose / manage environments (ie. default hostname)
+- [ ] Add a global context
+ - [x] Choose / manage environments (ie. default hostname)
  - [ ] Choose / manage profiles (ie. user token )
  - [ ] Persisted on localstorage
-
-A simplified version of the context would look like this:
-```
-context = {
-    environments: {
-        production: {
-            hostname: "https://google.com",
-            profiles: {
-                staff: {
-                    token: "123"
-                }
-            },
-            profile: "staff"
-        }
-    },
-    environment: "production"
-}
-```
-
-This is how postman do it
-![Postman environments](https://cloud.githubusercontent.com/assets/543507/18924582/9ed20b90-85a8-11e6-8fe6-3b6ae84494ae.png)
-
 - [ ] Can lock queries (no further change on url & headers & params can be made unless you clone it)
 - [ ] Create groups of queries
  - [ ] Automatically group queries by hostname
