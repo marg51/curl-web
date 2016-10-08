@@ -59,6 +59,7 @@ This is how postman do it
  - [ ] last status of a query
 - [ ] separate GET params from URL
 - [ ] use flexbox instead of float-left or col-xx-n
+- [ ] add tabs: ability to add new tabs to edit queries
 
 
 ### Level 3
