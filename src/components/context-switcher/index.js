@@ -9,8 +9,14 @@ export default app => {
                 $scope.openEditor = () => {
                     $uibModal.open({
                         template: `<div context-editor></div>`
+                    }).result.finally(() => {
+                        Context.save()
                     })
                 }
+
+                $scope.$watch("context.environment", env => {
+                    if(env) Context.save()
+                })
             }
         }
     })
