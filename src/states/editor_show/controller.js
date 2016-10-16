@@ -13,11 +13,11 @@ export default function EditorShowController($scope, QueryStorage, QueryRunner, 
         return QueryRunner.run($scope.query) // second value is a random context for now
             .then(data => {
                 delete $scope._.content
-                $scope.tests = TestRunner.run($scope.query.tests, data)
+                // $scope.tests = TestRunner.run($scope.query.tests, data)
 
                 return data
             })
-            .then(data => $scope.response = data)
+            .then(data => $scope.response = JSON.stringify(data.data, null, 4))
             .catch(data => $scope.response = data)
     }
 }

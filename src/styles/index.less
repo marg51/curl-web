@@ -3,31 +3,35 @@
 [ng-click] {
     cursor: pointer;
 }
+body {
+    background: #212129;
+}
 
 body .navbar {
     border-radius: 0px !important;
     margin-bottom: -1px !important;
-    background-color: #212129;
+    background-color:black;
     border-width: 0px;
     &.navbar-default .navbar-brand {
         color: white;
     }
 }
 .subnavbar {
-    background: #313139;
+    background: #212129;
     color: white;
     height: 50px;
     line-height: 50px;
 }
 
 .sidebar {
+    color: white;
     width: 360px;
     float: left;
     padding: 10px 15px; // 15px to match the navbar padding-left
     padding-top: 50px;
-    background-color: #f8f8f8;
-    border-right: 1px solid #e7e7e7;
-    min-height: calc(~"100vh - 50px");
+    background-color: #212129;
+    border-right: 1px solid #313139;
+    min-height: calc(~"100vh - 100px");
     h1 {
         margin-top: 0;
     }
@@ -36,11 +40,13 @@ body .navbar {
 }
 
 .content {
+    background-color: #313139;
+    color: white;
     padding: 20px;
-    padding-top: 50px;
     padding-right: 15px; // to match navbar
     margin-left: 360px;
-    min-height: calc(~"100vh - 50px");
+    min-height: calc(~"100vh - 100px");
+    overflow: auto;
     h1 {
         margin-top: 0;
     }

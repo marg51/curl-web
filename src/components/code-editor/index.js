@@ -16,7 +16,11 @@ export default app => {
                 wait().then(() => {
                     window.editor = monaco.editor.create(elm[0], {
                         value: scope.value,
-                        language: 'javascript'
+                        language: 'javascript',
+                        roundedSelection: false,
+                        scrollBeyondLastLine: false,
+                        readOnly: false,
+                        theme: "vs-dark",
                     });
                     editor.onDidBlurEditor(() => {
                         scope.value = editor.getValue()
