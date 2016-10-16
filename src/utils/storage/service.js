@@ -12,7 +12,7 @@ export const QueryStorage = function QueryStorageFactory (uuid, QueryBuilder) {
   }
 
   function _save(query) {
-    localStorage.setItem(storageId, angular.toJson(store.queries));
+    localStorage.setItem(storageId, angular.toJson(store.queries.map(QueryBuilder.stringifyQuery)));
   }
 
   function fetch() {

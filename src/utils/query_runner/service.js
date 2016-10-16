@@ -7,42 +7,31 @@ export const QueryRunner = function QueryRunnerFactory($http, Context, QueryStor
     }
 
     function run(query, context = Context.get()) {
-        const method = query.method.toLowerCase()
 
+
+        const contextToSend = {
+            context: context.environments[context.environment],
+            getQuery: QueryStorage.get,
+            _ // el lodashito (:
+        }
+        const vmContext = vm.createContext(contextToSend)
+        vm.runInContext(query.config, vmContext)
+        const config = vmContext.result
+
+        const method = config.method.toLowerCase()
         if(!$http[method]) {
             throw new Error(`"${method}" is not a valid method`)
         }
-        const vmContext = {
-            context: context.environments[context.environment],
-            getQuery: QueryStorage.get,
-            console,
-            _,
-            executeInContext: (value) => {
-                const localCtx = vm.createContext(vmContext)
-                vm.runInContext(value, localCtx)
-
-                return localCtx
-            }
-        }
-        const vmContextHeaders = vm.createContext(vmContext)
-        const headers = vm.runInContext(query.headers, vmContextHeaders) || vmContextHeaders.result
-
-        const vmContextBody = vm.createContext(vmContext)
-        const body = vm.runInContext(query.body, vmContextBody) || vmContextBody.result
 
         let url
-        if(vmContextHeaders.hostname) {
-            url = vmContextHeaders.hostname + query.endpoint + query.getParams
-        } else {
-            url = query.scheme+"://"+query.hostname + query.endpoint + query.getParams
-        }
+        url = config.scheme+"://"+config.hostname + config.endpoint + config.getParams
 
         if(method == "get") {
-            return $http[method](url, query.params, {headers})
+            return $http[method](url, {headers: config.headers})
         }
 
         // no params yet
-        return $http[method](url, body, {headers})
+        return $http[method](url, config.body, {headers:config.headers})
     }
 
 }
