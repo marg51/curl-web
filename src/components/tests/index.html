@@ -1,12 +1,12 @@
 <div>
-    <div ng-repeat="test in tests.tests" ng-class="{'text-danger': test.error}">
+    <h1>ToDo</h1>
+    <p>Format errors</p>
+    <span loader="!tests.finished">Running</span>
+    <div class="tests.finished">
+        <div ng-repeat="test in tests.specs()">
+            {{test.description}} {{test.failedExpectations.length}} {{test.passedExpectations.length}}
 
-         <code class="code" ng-class="{'text-success': !test.error}">
-            <span ng-if="test.error"><i class="fa fa-times"></i></span>
-            <span ng-if="!test.error"><i class="fa fa-check"></i></span>
-
-            {{test.expression}}
-        </code>
-        <small><br />{{test.error.message}}</small>
+            <div ng-repeat="error in test.failedExpectations">{{error.message}}</div>
+        </div>
     </div>
 </div>
