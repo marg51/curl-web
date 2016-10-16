@@ -1,4 +1,4 @@
-export default function EditorShowController($scope, QueryStorage, QueryRunner, $stateParams, TestRunner) {
+export default function EditorShowController($scope, QueryStorage, QueryRunner, $stateParams, TestRunner, $parse) {
     $scope._ = {
         content: "body",
         contentResponse: "response"

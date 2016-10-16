@@ -1,3 +1,5 @@
+const vm = require('vm')
+
 export const TestRunner = function TestRunnerFactory($parse) {
 
     return {
@@ -5,22 +7,27 @@ export const TestRunner = function TestRunnerFactory($parse) {
     }
 
     function run(string_test, data) {
-        const results = {fails: 0, successes: 0, tests: []}
-        string_test.split("\n").filter(e => e.match(/[a-z]/)).map(expression => {
-            try {
-                $parse(expression)({
-                    expect: chai.expect,
-                    data,
-                    typeof(value) { return typeof value}
-                })
-                results.tests.push({expression})
-                results.successes++
-            } catch(e) {
-                results.tests.push({expression, error: e})
-                results.fails++
-            }
+
+        window.jasmine = jasmineRequire.core(jasmineRequire);
+        var env = jasmine.getEnv();
+        var jasmineInterface = jasmineRequire.interface(jasmine, env);
+
+        env.addReporter(jasmineInterface.jsApiReporter);
+
+        let context = vm.createContext({
+            ...jasmineInterface,
+            console,
+            data
         })
 
-        return results
+        try {
+            const result = vm.Script(string_test).runInContext(context)
+            env.execute()
+        } catch(e) {
+            debugger
+
+        }
+
+        return jasmineInterface.jsApiReporter
     }
 }
