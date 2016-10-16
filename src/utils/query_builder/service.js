@@ -13,15 +13,20 @@ export const QueryBuilder = function QueryBuilderFactory() {
         // @throw if the string is not a curl command
         const curl = parse(curl_string)
 
+        const decomposedUrl = curl.url.match(/^(https?):\/\/([^\/]*)(\/[^\?]*)?(\?.*)?/)
+
+        if(!decomposedUrl) {
+            console.warn("/^(https?):\/\/([^\/]*)(\/[^\?]*)?(\?.*)?/", curl.url)
+            throw new Error("couldn't parse url")
+        }
+
         let query = {
-            name: curl.url,
-            headers: {
-                // example of function as value
-                timestamp: (context) => {
-                    return context.hostname
-                },
-                ...curl.headers
-            },
+            name: curl.method + " " + decomposedUrl[3],
+            scheme: decomposedUrl[1],
+            hostname: decomposedUrl[2],
+            endpoint: decomposedUrl[3],
+            getParams: decomposedUrl[4],
+            headers: `var result = ${JSON.stringify(curl.headers)}`,
             body: curl.data.ascii,
             method: curl.method,
             url: curl.url,
@@ -37,12 +42,7 @@ export const QueryBuilder = function QueryBuilderFactory() {
 
         return {
             ...query,
-            headers: {
-                ...query.headers,
-                timestamp: (context) => {
-                    return context.environment.hostname
-                },
-            }
+            headers: query.headers
         }
 
     }

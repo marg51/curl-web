@@ -23,6 +23,33 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <script src="/node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script>
+		function uriFromPath(_path) {
+			var pathName = path.resolve(_path).replace(/\\/g, '/');
+			if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+				pathName = '/' + pathName;
+			}
+			return encodeURI('' + pathName);
+		}
+		require.config({
+			baseUrl: 'file:///Users/uto/www/curl_web/node_modules/monaco-editor/min/'
+		});
+		// workaround monaco-css not understanding the environment
+		self.module = undefined;
+		// workaround monaco-typescript not understanding the environment
+		self.process.browser = true;
+		require(['vs/editor/editor.main'], function() {
+			/*var editor = monaco.editor.create(document.getElementById('container'), {
+				value: [
+					'function x() {',
+					'\tconsole.log("Hello world!");',
+					'}'
+				].join('\n'),
+				language: 'javascript'
+			});*/
+		});
+	</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min.js"></script>
 
     <script src="/bundle.js"></script>

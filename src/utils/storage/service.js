@@ -7,7 +7,8 @@ export const QueryStorage = function QueryStorageFactory (uuid, QueryBuilder) {
     queries,
     add,
     remove,
-    get
+    get,
+    _save
   }
 
   function _save(query) {

@@ -7,10 +7,12 @@ export default function EditorShowController($scope, QueryStorage, QueryRunner, 
     $scope.query = QueryStorage.get($stateParams.id)
 
     $scope.trigger = () => {
+        QueryStorage._save()
         delete $scope.response
 
         return QueryRunner.run($scope.query) // second value is a random context for now
             .then(data => {
+                delete $scope._.content
                 $scope.tests = TestRunner.run($scope.query.tests, data)
 
                 return data

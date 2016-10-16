@@ -6,6 +6,7 @@ import tests from "./tests"
 import filters from "./filters"
 import contextSwitcher from "./context-switcher"
 import contextEditor from "./context-editor"
+import codeEditor from "./code-editor"
 
 export default app => {
     listQueries(app)
@@ -14,6 +15,7 @@ export default app => {
     tests(app)
     contextSwitcher(app)
     contextEditor(app)
+    codeEditor(app)
 
     directives(app)
     filters(app)

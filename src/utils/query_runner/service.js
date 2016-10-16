@@ -1,4 +1,6 @@
-export const QueryRunner = function QueryRunnerFactory($http, Context) {
+const vm = require("vm")
+
+export const QueryRunner = function QueryRunnerFactory($http, Context, QueryStorage) {
 
     return {
         run
@@ -10,26 +12,37 @@ export const QueryRunner = function QueryRunnerFactory($http, Context) {
         if(!$http[method]) {
             throw new Error(`"${method}" is not a valid method`)
         }
+        const vmContext = {
+            context: context.environments[context.environment],
+            getQuery: QueryStorage.get,
+            console,
+            _,
+            executeInContext: (value) => {
+                const localCtx = vm.createContext(vmContext)
+                vm.runInContext(value, localCtx)
 
-        const headers = _.reduce(query.headers, (state, header, key) => {
-            if(typeof header == "function") {
-                try {
-                    state[key] = header(context)
-                } catch(e) {
-                    console.warn("couldn't execute header")
-                }
-            } else {
-                state[key] = header
+                return localCtx
             }
+        }
+        const vmContextHeaders = vm.createContext(vmContext)
+        const headers = vm.runInContext(query.headers, vmContextHeaders) || vmContextHeaders.result
 
-            return state
-        }, {})
+        const vmContextBody = vm.createContext(vmContext)
+        const body = vm.runInContext(query.body, vmContextBody) || vmContextBody.result
+
+        let url
+        if(vmContextHeaders.hostname) {
+            url = vmContextHeaders.hostname + query.endpoint + query.getParams
+        } else {
+            url = query.scheme+"://"+query.hostname + query.endpoint + query.getParams
+        }
 
         if(method == "get") {
-            return $http[method](query.url, query.params, {headers})
+            return $http[method](url, query.params, {headers})
         }
 
         // no params yet
-        return $http[method](query.url, query.body, {headers})
+        return $http[method](url, body, {headers})
     }
+
 }
