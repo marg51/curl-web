@@ -31,7 +31,7 @@ body .navbar {
     padding-top: 50px;
     background-color: #212129;
     border-right: 1px solid #313139;
-    min-height: calc(~"100vh - 100px");
+    height: calc(~"100vh - 50px");
     h1 {
         margin-top: 0;
     }
@@ -45,7 +45,8 @@ body .navbar {
     padding: 20px;
     padding-right: 15px; // to match navbar
     margin-left: 360px;
-    min-height: calc(~"100vh - 100px");
+    height: calc(~"100vh - 50px");
+    width: calc(~"100vw - 360px");
     overflow: auto;
     h1 {
         margin-top: 0;
@@ -54,4 +55,13 @@ body .navbar {
 
 body h1 {
     font-size: 18px;
+}
+
+body {
+    .text-success {
+        color: #80d681;
+    }
+    .text-danger {
+        color: #f37876;
+    }
 }

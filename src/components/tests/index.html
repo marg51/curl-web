@@ -1,12 +1,7 @@
 <div>
-    <h1>ToDo</h1>
-    <p>Format errors</p>
-    <span loader="!tests.finished">Running</span>
-    <div class="tests.finished">
-        <div ng-repeat="test in tests.specs()">
-            {{test.description}} {{test.failedExpectations.length}} {{test.passedExpectations.length}}
-
-            <div ng-repeat="error in test.failedExpectations">{{error.message}}</div>
-        </div>
+    {{tests.passed}}/{{tests.total}}
+    <span loader="tests.isLoading">Running</span>
+    <div class="tests.isLoaded">
+        <div ng-repeat="test in tests.children" test-suite></div>
     </div>
 </div>

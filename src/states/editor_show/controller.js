@@ -1,19 +1,27 @@
-export default function EditorShowController($scope, QueryStorage, QueryRunner, $stateParams, TestRunner, $parse) {
+export default function EditorShowController($scope, QueryStorage, HistoryStorage, QueryRunner, $stateParams, TestRunner, $parse) {
     $scope._ = {
-        content: "body",
+        content: "config",
         contentResponse: "response"
     }
 
     $scope.query = QueryStorage.get($stateParams.id)
+    $scope.history = HistoryStorage.get()
 
     $scope.trigger = () => {
         QueryStorage._save()
         delete $scope.response
 
-        return QueryRunner.run($scope.query) // second value is a random context for now
+        return QueryRunner.run($scope.query)
             .then(data => {
                 delete $scope._.content
-                // $scope.tests = TestRunner.run($scope.query.tests, data)
+                const tests = TestRunner.run($scope.query.tests, data)
+
+                $scope.tests = tests.results
+
+                tests.promise.then(data => {
+                    var {passed, failed, total} = data
+                    HistoryStorage.add($scope.query.id, {passed, failed, total, date: new Date}).save()
+                })
 
                 return data
             })

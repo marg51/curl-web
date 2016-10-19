@@ -19,8 +19,9 @@ function createWindow () {
     })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`https://curlee.uto.io`)
-//   mainWindow.loadURL(`http://localhost:4003`)
+//   mainWindow.loadURL(`https://curlee.uto.io`)
+  mainWindow.loadURL(`http://localhost:4003`)
+//   mainWindow.loadURL(`src/index.html`)
 
 
   // Open the DevTools.

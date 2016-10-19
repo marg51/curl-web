@@ -31,9 +31,15 @@ export const QueryBuilder = function QueryBuilderFactory() {
                 url: curl.url,
                 method: curl.method,
                 headers: curl.headers,
-                body: JSON.parse(curl.data.ascii),
-                tests: ""
-            }, null, 4)}`
+                body: JSON.parse(curl.data.ascii)
+            }, null, 4)}`,
+            tests: `
+                describe("MyTest", () => {
+                    it("should have valid status code", () => {
+                        expect(data.status).toBeGreaterThan(200)
+                        expect(data.status).toBeLowerThan(300)
+                    })
+                })`
 
         }
 

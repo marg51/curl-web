@@ -2,7 +2,8 @@ export default app => {
     app.directive("codeEditor", ($timeout) => {
         return {
             scope: {
-                value:"="
+                value:"=",
+                config: "@"
             },
             link: (scope, elm) => {
                 function wait() {
@@ -21,6 +22,7 @@ export default app => {
                         scrollBeyondLastLine: false,
                         readOnly: false,
                         theme: "vs-dark",
+                        ...scope.$eval(scope.config)
                     });
                     editor.onDidBlurEditor(() => {
                         scope.value = editor.getValue()

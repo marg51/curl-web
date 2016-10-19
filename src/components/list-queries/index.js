@@ -1,10 +1,13 @@
 export default app => {
-    app.directive("listQueries", () => {
+    app.directive("listQueries", (HistoryStorage) => {
         return {
             scope: {
                 queries: "="
             },
-            template: require("./index.html")
+            template: require("./index.html"),
+            link: (scope) => {
+                scope.history = HistoryStorage.get()
+            }
         }
     })
 
